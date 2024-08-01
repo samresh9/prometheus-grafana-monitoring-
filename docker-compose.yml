@@ -1,0 +1,23 @@
+services:
+  node-app:
+    build: .
+    ports:
+      - "5000:3000"
+    volumes:
+      - /home/samresh/workspace/logs and monitoring:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - monitoring
+    command: npm run dev
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
